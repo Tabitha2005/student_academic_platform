@@ -110,12 +110,10 @@ class _AssignmentsScreenState extends State<AssignmentsScreen>
       );
     }
 
-    final pendingAssignments = assignments
-        .where((a) => !a.isCompleted)
-        .toList();
-    final completedAssignments = assignments
-        .where((a) => a.isCompleted)
-        .toList();
+    final pendingAssignments =
+        assignments.where((a) => !a.isCompleted).toList();
+    final completedAssignments =
+        assignments.where((a) => a.isCompleted).toList();
 
     return SingleChildScrollView(
       padding: const EdgeInsets.all(16),
@@ -125,7 +123,7 @@ class _AssignmentsScreenState extends State<AssignmentsScreen>
           if (pendingAssignments.isNotEmpty) ...[
             Text(
               'Pending (${pendingAssignments.length})',
-              style: TextStyle(
+              style: const TextStyle(
                 fontSize: 16,
                 fontWeight: FontWeight.bold,
                 color: ALUTheme.textWhite,
@@ -141,7 +139,9 @@ class _AssignmentsScreenState extends State<AssignmentsScreen>
                     Navigator.push(
                       context,
                       MaterialPageRoute(
-                        builder: (_) => const CreateAssignmentScreen(),
+                        builder: (_) => CreateAssignmentScreen(
+                          assignmentToEdit: assignment,
+                        ),
                       ),
                     );
                   },
@@ -165,7 +165,7 @@ class _AssignmentsScreenState extends State<AssignmentsScreen>
             if (pendingAssignments.isNotEmpty) const SizedBox(height: 24),
             Text(
               'Completed (${completedAssignments.length})',
-              style: TextStyle(
+              style: const TextStyle(
                 fontSize: 16,
                 fontWeight: FontWeight.bold,
                 color: ALUTheme.textWhite,
@@ -181,7 +181,9 @@ class _AssignmentsScreenState extends State<AssignmentsScreen>
                     Navigator.push(
                       context,
                       MaterialPageRoute(
-                        builder: (_) => const CreateAssignmentScreen(),
+                        builder: (_) => CreateAssignmentScreen(
+                          assignmentToEdit: assignment,
+                        ),
                       ),
                     );
                   },

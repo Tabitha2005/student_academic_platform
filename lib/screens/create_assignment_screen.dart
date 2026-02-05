@@ -6,19 +6,38 @@ import '../models/assignment.dart';
 import '../theme/alu_theme.dart';
 
 class CreateAssignmentScreen extends StatefulWidget {
-  const CreateAssignmentScreen({super.key});
+  final Assignment? assignmentToEdit;
+
+  const CreateAssignmentScreen({super.key, this.assignmentToEdit});
 
   @override
   State<CreateAssignmentScreen> createState() => _CreateAssignmentScreenState();
 }
 
 class _CreateAssignmentScreenState extends State<CreateAssignmentScreen> {
-  final _titleController = TextEditingController();
-  final _courseController = TextEditingController();
+  late TextEditingController _titleController;
+  late TextEditingController _courseController;
   final _formKey = GlobalKey<FormState>();
-  DateTime _selectedDate = DateTime.now().add(const Duration(days: 7));
-  String _selectedPriority = 'Medium';
-  String _selectedCategory = 'Formative';
+  late DateTime _selectedDate;
+  late String _selectedPriority;
+  late String _selectedCategory;
+
+  bool get isEditing => widget.assignmentToEdit != null;
+
+  @override
+  void initState() {
+    super.initState();
+    _titleController = TextEditingController(
+      text: widget.assignmentToEdit?.title ?? '',
+    );
+    _courseController = TextEditingController(
+      text: widget.assignmentToEdit?.course ?? '',
+    );
+    _selectedDate = widget.assignmentToEdit?.dueDate ??
+        DateTime.now().add(const Duration(days: 7));
+    _selectedPriority = widget.assignmentToEdit?.priority ?? 'Medium';
+    _selectedCategory = widget.assignmentToEdit?.category ?? 'Formative';
+  }
 
   @override
   void dispose() {
@@ -31,8 +50,8 @@ class _CreateAssignmentScreenState extends State<CreateAssignmentScreen> {
     final DateTime? picked = await showDatePicker(
       context: context,
       initialDate: _selectedDate,
-      firstDate: DateTime.now(),
-      lastDate: DateTime.now().add(const Duration(days: 365)),
+      firstDate: DateTime.now().subtract(const Duration(days: 365)),
+      lastDate: DateTime.now().add(const Duration(days: 365 * 2)),
     );
     if (picked != null && picked != _selectedDate) {
       setState(() {
@@ -41,25 +60,38 @@ class _CreateAssignmentScreenState extends State<CreateAssignmentScreen> {
     }
   }
 
-  void _createAssignment() {
+  void _saveAssignment() {
     if (_formKey.currentState!.validate()) {
-      final newAssignment = Assignment(
-        id: const Uuid().v4(),
-        title: _titleController.text,
-        course: _courseController.text,
-        dueDate: _selectedDate,
-        priority: _selectedPriority,
-        category: _selectedCategory,
-      );
+      final appState = Provider.of<AppState>(context, listen: false);
 
-      Provider.of<AppState>(
-        context,
-        listen: false,
-      ).addAssignment(newAssignment);
+      if (isEditing) {
+        final updatedAssignment = widget.assignmentToEdit!.copyWith(
+          title: _titleController.text,
+          course: _courseController.text,
+          dueDate: _selectedDate,
+          priority: _selectedPriority,
+          category: _selectedCategory,
+        );
+        appState.updateAssignment(updatedAssignment);
+      } else {
+        final newAssignment = Assignment(
+          id: const Uuid().v4(),
+          title: _titleController.text,
+          course: _courseController.text,
+          dueDate: _selectedDate,
+          priority: _selectedPriority,
+          category: _selectedCategory,
+        );
+        appState.addAssignment(newAssignment);
+      }
 
       ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(
-          content: Text('Assignment created successfully'),
+        SnackBar(
+          content: Text(
+            isEditing
+                ? 'Assignment updated successfully'
+                : 'Assignment created successfully',
+          ),
           backgroundColor: ALUTheme.successGreen,
         ),
       );
@@ -75,7 +107,7 @@ class _CreateAssignmentScreenState extends State<CreateAssignmentScreen> {
     return Scaffold(
       backgroundColor: ALUTheme.primaryDark,
       appBar: AppBar(
-        title: const Text('Create Assignment'),
+        title: Text(isEditing ? 'Edit Assignment' : 'Create Assignment'),
         elevation: 0,
         backgroundColor: ALUTheme.primaryDark,
       ),
@@ -86,7 +118,7 @@ class _CreateAssignmentScreenState extends State<CreateAssignmentScreen> {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              Text(
+              const Text(
                 'Title',
                 style: TextStyle(
                   fontSize: 14,
@@ -115,7 +147,7 @@ class _CreateAssignmentScreenState extends State<CreateAssignmentScreen> {
                 },
               ),
               const SizedBox(height: 16),
-              Text(
+              const Text(
                 'Course',
                 style: TextStyle(
                   fontSize: 14,
@@ -144,7 +176,7 @@ class _CreateAssignmentScreenState extends State<CreateAssignmentScreen> {
                 },
               ),
               const SizedBox(height: 16),
-              Text(
+              const Text(
                 'Due Date',
                 style: TextStyle(
                   fontSize: 14,
@@ -171,7 +203,7 @@ class _CreateAssignmentScreenState extends State<CreateAssignmentScreen> {
                 ),
               ),
               const SizedBox(height: 16),
-              Text(
+              const Text(
                 'Priority',
                 style: TextStyle(
                   fontSize: 14,
@@ -206,7 +238,7 @@ class _CreateAssignmentScreenState extends State<CreateAssignmentScreen> {
                 ),
               ),
               const SizedBox(height: 16),
-              Text(
+              const Text(
                 'Category',
                 style: TextStyle(
                   fontSize: 14,
@@ -245,7 +277,7 @@ class _CreateAssignmentScreenState extends State<CreateAssignmentScreen> {
                 width: double.infinity,
                 height: 56,
                 child: ElevatedButton(
-                  onPressed: _createAssignment,
+                  onPressed: _saveAssignment,
                   style: ElevatedButton.styleFrom(
                     backgroundColor: ALUTheme.accentYellow,
                     shape: RoundedRectangleBorder(
@@ -253,7 +285,7 @@ class _CreateAssignmentScreenState extends State<CreateAssignmentScreen> {
                     ),
                   ),
                   child: Text(
-                    'Create Assignment',
+                    isEditing ? 'Update Assignment' : 'Create Assignment',
                     style: TextStyle(
                       fontSize: 16,
                       fontWeight: FontWeight.bold,
