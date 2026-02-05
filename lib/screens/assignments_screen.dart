@@ -37,7 +37,7 @@ class _AssignmentsScreenState extends State<AssignmentsScreen>
         elevation: 0,
         backgroundColor: ALUTheme.primaryDark,
       ),
-      floatingActionButton: FloatingActionButton(
+      floatingActionButton: FloatingActionButton.extended(
         onPressed: () {
           Navigator.push(
             context,
@@ -45,7 +45,14 @@ class _AssignmentsScreenState extends State<AssignmentsScreen>
           );
         },
         backgroundColor: ALUTheme.accentYellow,
-        child: const Icon(Icons.add, color: Colors.black),
+        icon: const Icon(Icons.add, color: Colors.black),
+        label: const Text(
+          'Add Assignment',
+          style: TextStyle(
+            color: Colors.black,
+            fontWeight: FontWeight.bold,
+          ),
+        ),
       ),
       body: Consumer<AppState>(
         builder: (context, appState, _) {
@@ -56,7 +63,8 @@ class _AssignmentsScreenState extends State<AssignmentsScreen>
                 labelColor: ALUTheme.accentYellow,
                 unselectedLabelColor: ALUTheme.textWhite.withValues(alpha: 0.5),
                 indicatorColor: ALUTheme.accentYellow,
-                indicatorWeight: 3,
+                indicatorWeight: 4,
+                labelStyle: const TextStyle(fontWeight: FontWeight.bold),
                 tabs: const [
                   Tab(text: 'All'),
                   Tab(text: 'Formative'),
@@ -93,16 +101,25 @@ class _AssignmentsScreenState extends State<AssignmentsScreen>
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
             Icon(
-              Icons.assignment,
-              size: 64,
-              color: ALUTheme.textWhite.withValues(alpha: 0.3),
+              Icons.assignment_outlined,
+              size: 72,
+              color: ALUTheme.textWhite.withValues(alpha: 0.25),
             ),
             const SizedBox(height: 16),
             Text(
               'No assignments yet',
               style: TextStyle(
                 fontSize: 18,
+                fontWeight: FontWeight.w500,
                 color: ALUTheme.textWhite.withValues(alpha: 0.5),
+              ),
+            ),
+            const SizedBox(height: 12),
+            Text(
+              'Tap the button below to add one',
+              style: TextStyle(
+                fontSize: 14,
+                color: ALUTheme.textWhite.withValues(alpha: 0.4),
               ),
             ),
           ],
@@ -118,17 +135,18 @@ class _AssignmentsScreenState extends State<AssignmentsScreen>
         .toList();
 
     return SingleChildScrollView(
-      padding: const EdgeInsets.all(16),
+      padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 20),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           if (pendingAssignments.isNotEmpty) ...[
             Text(
               'Pending (${pendingAssignments.length})',
-              style: TextStyle(
+              style: const TextStyle(
                 fontSize: 16,
                 fontWeight: FontWeight.bold,
                 color: ALUTheme.textWhite,
+                letterSpacing: 0.5,
               ),
             ),
             const SizedBox(height: 12),
@@ -162,13 +180,14 @@ class _AssignmentsScreenState extends State<AssignmentsScreen>
             }),
           ],
           if (completedAssignments.isNotEmpty) ...[
-            if (pendingAssignments.isNotEmpty) const SizedBox(height: 24),
+            if (pendingAssignments.isNotEmpty) const SizedBox(height: 28),
             Text(
               'Completed (${completedAssignments.length})',
-              style: TextStyle(
+              style: const TextStyle(
                 fontSize: 16,
                 fontWeight: FontWeight.bold,
                 color: ALUTheme.textWhite,
+                letterSpacing: 0.5,
               ),
             ),
             const SizedBox(height: 12),
@@ -201,6 +220,7 @@ class _AssignmentsScreenState extends State<AssignmentsScreen>
               );
             }),
           ],
+          const SizedBox(height: 20),
         ],
       ),
     );
