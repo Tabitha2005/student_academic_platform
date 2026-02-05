@@ -226,7 +226,7 @@ class _DashboardScreenState extends State<DashboardScreen> {
                         color: ALUTheme.textDark.withValues(alpha: 0.1),
                         blurRadius: 8,
                         offset: const Offset(0, 4),
-                      )
+                      ),
                     ],
                   ),
                   child: Row(
@@ -323,7 +323,7 @@ class _DashboardScreenState extends State<DashboardScreen> {
                             color: ALUTheme.textDark.withValues(alpha: 0.05),
                             blurRadius: 8,
                             offset: const Offset(0, 2),
-                          )
+                          ),
                         ],
                         border: Border(
                           left: BorderSide(
@@ -356,7 +356,9 @@ class _DashboardScreenState extends State<DashboardScreen> {
                                 '${appState.getFormattedTime(session.startTime)} - ${appState.getFormattedTime(session.endTime)}',
                                 style: TextStyle(
                                   fontSize: 12,
-                                  color: ALUTheme.textDark.withValues(alpha: 0.6),
+                                  color: ALUTheme.textDark.withValues(
+                                    alpha: 0.6,
+                                  ),
                                 ),
                               ),
                             ],
@@ -377,7 +379,9 @@ class _DashboardScreenState extends State<DashboardScreen> {
                                       : 'No location specified',
                                   style: TextStyle(
                                     fontSize: 12,
-                                    color: ALUTheme.textDark.withValues(alpha: 0.6),
+                                    color: ALUTheme.textDark.withValues(
+                                      alpha: 0.6,
+                                    ),
                                   ),
                                 ),
                               ),
@@ -443,7 +447,7 @@ class _DashboardScreenState extends State<DashboardScreen> {
                             color: ALUTheme.textDark.withValues(alpha: 0.05),
                             blurRadius: 8,
                             offset: const Offset(0, 2),
-                          )
+                          ),
                         ],
                         border: Border(
                           left: BorderSide(
@@ -477,8 +481,9 @@ class _DashboardScreenState extends State<DashboardScreen> {
                                     vertical: 4,
                                   ),
                                   decoration: BoxDecoration(
-                                    color:
-                                        ALUTheme.warningRed.withValues(alpha: 0.1),
+                                    color: ALUTheme.warningRed.withValues(
+                                      alpha: 0.1,
+                                    ),
                                     borderRadius: BorderRadius.circular(8),
                                   ),
                                   child: const Text(
@@ -517,7 +522,9 @@ class _DashboardScreenState extends State<DashboardScreen> {
                                   ),
                                   const SizedBox(width: 4),
                                   Text(
-                                    appState.getFormattedDate(assignment.dueDate),
+                                    appState.getFormattedDate(
+                                      assignment.dueDate,
+                                    ),
                                     style: TextStyle(
                                       fontSize: 13,
                                       fontWeight: isUrgent

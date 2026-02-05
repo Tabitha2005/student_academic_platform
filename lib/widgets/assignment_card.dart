@@ -43,10 +43,7 @@ class AssignmentCard extends StatelessWidget {
         decoration: BoxDecoration(
           borderRadius: BorderRadius.circular(16),
           border: Border(
-            left: BorderSide(
-              color: _getPriorityColor(),
-              width: 5,
-            ),
+            left: BorderSide(color: _getPriorityColor(), width: 5),
           ),
         ),
         child: Padding(
@@ -147,8 +144,7 @@ class AssignmentCard extends StatelessWidget {
                           vertical: 4,
                         ),
                         decoration: BoxDecoration(
-                          color:
-                              ALUTheme.accentYellow.withValues(alpha: 0.15),
+                          color: ALUTheme.accentYellow.withValues(alpha: 0.15),
                           borderRadius: BorderRadius.circular(6),
                         ),
                         child: Text(

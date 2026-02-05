@@ -48,10 +48,7 @@ class _AssignmentsScreenState extends State<AssignmentsScreen>
         icon: const Icon(Icons.add, color: Colors.black),
         label: const Text(
           'Add Assignment',
-          style: TextStyle(
-            color: Colors.black,
-            fontWeight: FontWeight.bold,
-          ),
+          style: TextStyle(color: Colors.black, fontWeight: FontWeight.bold),
         ),
       ),
       body: Consumer<AppState>(
