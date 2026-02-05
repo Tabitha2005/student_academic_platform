@@ -124,12 +124,10 @@ class _AssignmentsScreenState extends State<AssignmentsScreen>
       );
     }
 
-    final pendingAssignments = assignments
-        .where((a) => !a.isCompleted)
-        .toList();
-    final completedAssignments = assignments
-        .where((a) => a.isCompleted)
-        .toList();
+    final pendingAssignments =
+        assignments.where((a) => !a.isCompleted).toList();
+    final completedAssignments =
+        assignments.where((a) => a.isCompleted).toList();
 
     return SingleChildScrollView(
       padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 20),
@@ -156,7 +154,9 @@ class _AssignmentsScreenState extends State<AssignmentsScreen>
                     Navigator.push(
                       context,
                       MaterialPageRoute(
-                        builder: (_) => const CreateAssignmentScreen(),
+                        builder: (_) => CreateAssignmentScreen(
+                          assignmentToEdit: assignment,
+                        ),
                       ),
                     );
                   },
@@ -197,7 +197,9 @@ class _AssignmentsScreenState extends State<AssignmentsScreen>
                     Navigator.push(
                       context,
                       MaterialPageRoute(
-                        builder: (_) => const CreateAssignmentScreen(),
+                        builder: (_) => CreateAssignmentScreen(
+                          assignmentToEdit: assignment,
+                        ),
                       ),
                     );
                   },
