@@ -70,25 +70,26 @@ class _HomeScreenState extends State<HomeScreen> {
             _selectedIndex = index;
           });
         },
+        type: BottomNavigationBarType.fixed,
         items: const [
           BottomNavigationBarItem(
-            icon: Icon(Icons.dashboard),
+            icon: Icon(Icons.dashboard_rounded),
             label: 'Dashboard',
           ),
           BottomNavigationBarItem(
-            icon: Icon(Icons.assignment),
+            icon: Icon(Icons.assignment_rounded),
             label: 'Assignments',
           ),
           BottomNavigationBarItem(
-            icon: Icon(Icons.schedule),
+            icon: Icon(Icons.schedule_rounded),
             label: 'Schedule',
           ),
           BottomNavigationBarItem(
-            icon: Icon(Icons.notifications),
+            icon: Icon(Icons.notifications_rounded),
             label: 'Announcements',
           ),
           BottomNavigationBarItem(
-            icon: Icon(Icons.warning_amber),
+            icon: Icon(Icons.warning_amber_rounded),
             label: 'Risk',
           ),
         ],

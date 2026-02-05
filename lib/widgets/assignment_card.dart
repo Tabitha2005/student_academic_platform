@@ -36,113 +36,181 @@ class AssignmentCard extends StatelessWidget {
     final appState = Provider.of<AppState>(context);
 
     return Card(
-      margin: EdgeInsets.symmetric(vertical: 8, horizontal: 0),
-      child: Padding(
-        padding: EdgeInsets.all(16),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Row(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Checkbox(
-                  value: assignment.isCompleted,
-                  onChanged: (_) => onToggleComplete(),
-                  activeColor: ALUTheme.successGreen,
-                ),
-                Expanded(
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
+      elevation: 2,
+      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16)),
+      margin: const EdgeInsets.symmetric(vertical: 0, horizontal: 0),
+      child: Container(
+        decoration: BoxDecoration(
+          borderRadius: BorderRadius.circular(16),
+          border: Border(
+            left: BorderSide(color: _getPriorityColor(), width: 5),
+          ),
+        ),
+        child: Padding(
+          padding: const EdgeInsets.all(16),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Row(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  GestureDetector(
+                    onTap: onToggleComplete,
+                    child: Container(
+                      width: 24,
+                      height: 24,
+                      margin: const EdgeInsets.only(right: 12, top: 0),
+                      decoration: BoxDecoration(
+                        border: Border.all(
+                          color: assignment.isCompleted
+                              ? ALUTheme.successGreen
+                              : ALUTheme.textDark.withValues(alpha: 0.3),
+                          width: 2,
+                        ),
+                        borderRadius: BorderRadius.circular(6),
+                        color: assignment.isCompleted
+                            ? ALUTheme.successGreen
+                            : Colors.transparent,
+                      ),
+                      child: assignment.isCompleted
+                          ? const Icon(
+                              Icons.check,
+                              color: ALUTheme.cardWhite,
+                              size: 16,
+                            )
+                          : null,
+                    ),
+                  ),
+                  Expanded(
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Text(
+                          assignment.title,
+                          style: TextStyle(
+                            fontSize: 15,
+                            fontWeight: FontWeight.bold,
+                            color: ALUTheme.textDark,
+                            decoration: assignment.isCompleted
+                                ? TextDecoration.lineThrough
+                                : TextDecoration.none,
+                            decorationThickness: 2,
+                          ),
+                        ),
+                        const SizedBox(height: 6),
+                        Text(
+                          assignment.course,
+                          style: TextStyle(
+                            fontSize: 13,
+                            color: ALUTheme.textDark.withValues(alpha: 0.6),
+                            fontWeight: FontWeight.w500,
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
+                ],
+              ),
+              const SizedBox(height: 12),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                crossAxisAlignment: CrossAxisAlignment.center,
+                children: [
+                  Flex(
+                    direction: Axis.horizontal,
                     children: [
-                      Text(
-                        assignment.title,
-                        style: TextStyle(
-                          fontSize: 16,
-                          fontWeight: FontWeight.bold,
-                          color: ALUTheme.textDark,
-                          decoration: assignment.isCompleted
-                              ? TextDecoration.lineThrough
-                              : TextDecoration.none,
+                      Container(
+                        padding: const EdgeInsets.symmetric(
+                          horizontal: 10,
+                          vertical: 4,
+                        ),
+                        decoration: BoxDecoration(
+                          color: _getPriorityColor().withValues(alpha: 0.15),
+                          borderRadius: BorderRadius.circular(6),
+                        ),
+                        child: Text(
+                          assignment.priority,
+                          style: TextStyle(
+                            fontSize: 11,
+                            fontWeight: FontWeight.bold,
+                            color: _getPriorityColor(),
+                          ),
                         ),
                       ),
-                      SizedBox(height: 4),
-                      Text(
-                        assignment.course,
-                        style: TextStyle(
-                          fontSize: 14,
-                          color: ALUTheme.textDark.withValues(alpha: 0.6),
+                      const SizedBox(width: 8),
+                      Container(
+                        padding: const EdgeInsets.symmetric(
+                          horizontal: 10,
+                          vertical: 4,
+                        ),
+                        decoration: BoxDecoration(
+                          color: ALUTheme.accentYellow.withValues(alpha: 0.15),
+                          borderRadius: BorderRadius.circular(6),
+                        ),
+                        child: Text(
+                          assignment.category,
+                          style: const TextStyle(
+                            fontSize: 11,
+                            fontWeight: FontWeight.bold,
+                            color: ALUTheme.accentYellow,
+                          ),
                         ),
                       ),
                     ],
                   ),
-                ),
-              ],
-            ),
-            SizedBox(height: 12),
-            Row(
-              children: [
-                Container(
-                  padding: EdgeInsets.symmetric(horizontal: 12, vertical: 4),
-                  decoration: BoxDecoration(
-                    color: _getPriorityColor().withValues(alpha: 0.2),
-                    borderRadius: BorderRadius.circular(12),
+                  Row(
+                    children: [
+                      Icon(
+                        Icons.calendar_today,
+                        color: ALUTheme.textDark.withValues(alpha: 0.5),
+                        size: 14,
+                      ),
+                      const SizedBox(width: 4),
+                      Text(
+                        appState.getFormattedDate(assignment.dueDate),
+                        style: TextStyle(
+                          fontSize: 12,
+                          fontWeight: FontWeight.w500,
+                          color: ALUTheme.textDark.withValues(alpha: 0.7),
+                        ),
+                      ),
+                    ],
                   ),
-                  child: Text(
-                    assignment.priority,
-                    style: TextStyle(
-                      fontSize: 12,
-                      fontWeight: FontWeight.bold,
-                      color: _getPriorityColor(),
+                ],
+              ),
+              const SizedBox(height: 12),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.end,
+                children: [
+                  TextButton.icon(
+                    onPressed: onEdit,
+                    icon: const Icon(Icons.edit, size: 16),
+                    label: const Text('Edit'),
+                    style: TextButton.styleFrom(
+                      foregroundColor: ALUTheme.accentYellow,
+                      padding: const EdgeInsets.symmetric(
+                        horizontal: 12,
+                        vertical: 8,
+                      ),
                     ),
                   ),
-                ),
-                SizedBox(width: 8),
-                Container(
-                  padding: EdgeInsets.symmetric(horizontal: 12, vertical: 4),
-                  decoration: BoxDecoration(
-                    color: ALUTheme.accentYellow.withValues(alpha: 0.2),
-                    borderRadius: BorderRadius.circular(12),
-                  ),
-                  child: Text(
-                    assignment.category,
-                    style: TextStyle(
-                      fontSize: 12,
-                      fontWeight: FontWeight.bold,
-                      color: ALUTheme.accentYellow,
+                  const SizedBox(width: 4),
+                  TextButton.icon(
+                    onPressed: onDelete,
+                    icon: const Icon(Icons.delete_outline, size: 16),
+                    label: const Text('Delete'),
+                    style: TextButton.styleFrom(
+                      foregroundColor: ALUTheme.warningRed,
+                      padding: const EdgeInsets.symmetric(
+                        horizontal: 12,
+                        vertical: 8,
+                      ),
                     ),
                   ),
-                ),
-                Spacer(),
-                Text(
-                  appState.getFormattedDate(assignment.dueDate),
-                  style: TextStyle(
-                    fontSize: 12,
-                    color: ALUTheme.textDark.withValues(alpha: 0.6),
-                  ),
-                ),
-              ],
-            ),
-            SizedBox(height: 12),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.end,
-              children: [
-                TextButton(
-                  onPressed: onEdit,
-                  child: Text(
-                    'Edit',
-                    style: TextStyle(color: ALUTheme.accentYellow),
-                  ),
-                ),
-                TextButton(
-                  onPressed: onDelete,
-                  child: Text(
-                    'Delete',
-                    style: TextStyle(color: ALUTheme.warningRed),
-                  ),
-                ),
-              ],
-            ),
-          ],
+                ],
+              ),
+            ],
+          ),
         ),
       ),
     );
