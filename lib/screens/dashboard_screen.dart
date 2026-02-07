@@ -15,6 +15,7 @@ class _DashboardScreenState extends State<DashboardScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      // Background color pulled from custom ALU theme
       backgroundColor: ALUTheme.primaryDark,
       appBar: AppBar(
         title: const Text('Dashboard'),
@@ -23,13 +24,18 @@ class _DashboardScreenState extends State<DashboardScreen> {
       ),
       body: Consumer<AppState>(
         builder: (context, appState, _) {
+          // Initialize current time and format the date for the header display
           final now = DateTime.now();
           final currentDate = DateFormat('EEEE, MMMM d, yyyy').format(now);
+
+          // Access academic data from the AppState provider
           final weekNumber = appState.getWeekNumber(now);
           final todaySessions = appState.getTodaySessions();
           final upcomingAssignments = appState.getUpcomingAssignments();
           final attendancePercentage = appState.calculateAttendancePercentage();
           final pendingCount = appState.getPendingAssignmentsCount();
+
+          // Logic: Check if attendance is below the required 75% threshold
           final isAtRisk = attendancePercentage < 75;
 
           return SingleChildScrollView(
@@ -37,6 +43,7 @@ class _DashboardScreenState extends State<DashboardScreen> {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
+                // Header Container: Displays Date and Academic Week
                 Container(
                   padding: const EdgeInsets.all(20),
                   decoration: BoxDecoration(
@@ -74,6 +81,8 @@ class _DashboardScreenState extends State<DashboardScreen> {
                   ),
                 ),
                 const SizedBox(height: 20),
+
+                // Conditional UI: Displays a warning banner if attendance is 'At Risk'
                 if (isAtRisk)
                   Container(
                     padding: const EdgeInsets.all(16),
@@ -125,6 +134,7 @@ class _DashboardScreenState extends State<DashboardScreen> {
                     ),
                   ),
                 if (isAtRisk) const SizedBox(height: 20),
+
                 Container(
                   padding: const EdgeInsets.all(20),
                   decoration: BoxDecoration(
