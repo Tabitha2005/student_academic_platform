@@ -3,8 +3,8 @@ class Assignment {
   final String title;
   final String course;
   final DateTime dueDate;
-  final String priority; // High, Medium, Low
-  final String category; // Formative or Summative
+  final String priority;
+  final String category;
   bool isCompleted;
 
   Assignment({
@@ -17,7 +17,7 @@ class Assignment {
     this.isCompleted = false,
   });
 
-  // Create a copy with some fields modified
+ 
   Assignment copyWith({
     String? id,
     String? title,
@@ -35,6 +35,31 @@ class Assignment {
       priority: priority ?? this.priority,
       category: category ?? this.category,
       isCompleted: isCompleted ?? this.isCompleted,
+    );
+  }
+
+
+  Map<String, dynamic> toJson() {
+    return {
+      'id': id,
+      'title': title,
+      'course': course,
+      'dueDate': dueDate.toIso8601String(),
+      'priority': priority,
+      'category': category,
+      'isCompleted': isCompleted,
+    };
+  }
+
+  factory Assignment.fromJson(Map<String, dynamic> json) {
+    return Assignment(
+      id: json['id'] as String,
+      title: json['title'] as String,
+      course: json['course'] as String,
+      dueDate: DateTime.parse(json['dueDate'] as String),
+      priority: json['priority'] as String,
+      category: json['category'] as String,
+      isCompleted: json['isCompleted'] as bool? ?? false,
     );
   }
 }

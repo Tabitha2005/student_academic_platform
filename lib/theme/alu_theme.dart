@@ -1,15 +1,18 @@
 import 'package:flutter/material.dart';
 
 class ALUTheme {
-  // Primary Colors
-  static const Color primaryDark = Color(0xFF1A2B4A); // Dark Navy Blue
-  static const Color accentYellow = Color(0xFFFFC700); // Yellow
-  static const Color cardWhite = Color(0xFFFFFFFF); // White
-  static const Color warningRed = Color(0xFFFF4444); // Red
-  static const Color textDark = Color(0xFF1A2B4A); // Dark Blue Text
-  static const Color textWhite = Color(0xFFFFFFFF); // White Text
-  static const Color successGreen = Color(0xFF4CAF50); // Green
-  static const Color dividerGray = Color(0xFFE0E0E0); // Gray
+  static const Color primaryDark = Color(0xFF1A2B4A);
+  static const Color primaryOrange = Color(0xFFFF6B35);
+  static const Color accentYellow = Color(0xFFFFC700);
+  static const Color cardWhite = Color(0xFFFFFFFF);
+  static const Color warningRed = Color(0xFFFF4444);
+  static const Color textDark = Color(0xFF1A2B4A);
+  static const Color textWhite = Color(0xFFFFFFFF);
+  static const Color successGreen = Color(0xFF4CAF50);
+  static const Color dividerGray = Color(0xFFE0E0E0);
+  static const Color darkGray = Color(0xFF2C3E50);
+  static const Color mediumGray = Color(0xFF7F8C8D);
+  static const Color lightGray = Color(0xFFBDC3C7);
 
   static ThemeData getTheme() {
     return ThemeData(

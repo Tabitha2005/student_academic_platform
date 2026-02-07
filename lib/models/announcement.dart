@@ -28,4 +28,24 @@ class Announcement {
       audience: audience ?? this.audience,
     );
   }
+
+  Map<String, dynamic> toJson() {
+    return {
+      'id': id,
+      'title': title,
+      'description': description,
+      'createdAt': createdAt.toIso8601String(),
+      'audience': audience,
+    };
+  }
+
+  factory Announcement.fromJson(Map<String, dynamic> json) {
+    return Announcement(
+      id: json['id'] as String,
+      title: json['title'] as String,
+      description: json['description'] as String,
+      createdAt: DateTime.parse(json['createdAt'] as String),
+      audience: json['audience'] as String,
+    );
+  }
 }

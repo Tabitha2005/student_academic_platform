@@ -7,7 +7,7 @@ class AcademicSession {
   final TimeOfDay startTime;
   final TimeOfDay endTime;
   final String location;
-  final String sessionType; // Class, Study Group, PSL, Mastery
+  final String sessionType;
   bool isPresent;
 
   AcademicSession({
@@ -21,7 +21,7 @@ class AcademicSession {
     this.isPresent = false,
   });
 
-  // Create a copy with some fields modified
+
   AcademicSession copyWith({
     String? id,
     String? title,
@@ -41,6 +41,40 @@ class AcademicSession {
       location: location ?? this.location,
       sessionType: sessionType ?? this.sessionType,
       isPresent: isPresent ?? this.isPresent,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    return {
+      'id': id,
+      'title': title,
+      'date': date.toIso8601String(),
+      'startTimeHour': startTime.hour,
+      'startTimeMinute': startTime.minute,
+      'endTimeHour': endTime.hour,
+      'endTimeMinute': endTime.minute,
+      'location': location,
+      'sessionType': sessionType,
+      'isPresent': isPresent,
+    };
+  }
+
+  factory AcademicSession.fromJson(Map<String, dynamic> json) {
+    return AcademicSession(
+      id: json['id'] as String,
+      title: json['title'] as String,
+      date: DateTime.parse(json['date'] as String),
+      startTime: TimeOfDay(
+        hour: json['startTimeHour'] as int,
+        minute: json['startTimeMinute'] as int,
+      ),
+      endTime: TimeOfDay(
+        hour: json['endTimeHour'] as int,
+        minute: json['endTimeMinute'] as int,
+      ),
+      location: json['location'] as String,
+      sessionType: json['sessionType'] as String,
+      isPresent: json['isPresent'] as bool? ?? false,
     );
   }
 }

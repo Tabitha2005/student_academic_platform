@@ -2,14 +2,17 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'theme/alu_theme.dart';
 import 'state/app_state.dart';
+import 'screens/login_screen.dart';
 import 'screens/signup_screen.dart';
 import 'screens/dashboard_screen.dart';
 import 'screens/assignments_screen.dart';
 import 'screens/schedule_screen.dart';
 import 'screens/risk_status_screen.dart';
 import 'screens/announcements_screen.dart';
+import 'services/auth_service.dart';
 
-void main() {
+void main() async {
+  WidgetsFlutterBinding.ensureInitialized();
   runApp(const MyApp());
 }
 
@@ -38,23 +41,81 @@ class HomeScreen extends StatefulWidget {
 }
 
 class _HomeScreenState extends State<HomeScreen> {
-  bool _isSignedUp = false;
+  final _authService = AuthService();
+  bool _isLoading = true;
+  bool _isLoggedIn = false;
+  bool _showLogin = true;
   int _selectedIndex = 0;
 
   @override
+  void initState() {
+    super.initState();
+    _checkLoginStatus();
+  }
+
+  Future<void> _checkLoginStatus() async {
+    final loggedIn = await _authService.isLoggedIn();
+    if (loggedIn) {
+      await Provider.of<AppState>(context, listen: false).loadData();
+    }
+    setState(() {
+      _isLoggedIn = loggedIn;
+      _isLoading = false;
+    });
+  }
+
+  Future<void> _handleLoginSuccess() async {
+    await Provider.of<AppState>(context, listen: false).loadData();
+    setState(() {
+      _isLoggedIn = true;
+    });
+  }
+
+  void _handleSignupSuccess() {
+    setState(() {
+      _isLoggedIn = true;
+    });
+  }
+
+  void _toggleAuthScreen() {
+    setState(() {
+      _showLogin = !_showLogin;
+    });
+  }
+
+  Future<void> _handleLogout() async {
+    await _authService.logout();
+    setState(() {
+      _isLoggedIn = false;
+      _showLogin = true;
+      _selectedIndex = 0;
+    });
+  }
+
+  @override
   Widget build(BuildContext context) {
-    if (!_isSignedUp) {
-      return SignupScreen(
-        onSignupSuccess: () {
-          setState(() {
-            _isSignedUp = true;
-          });
-        },
+    if (_isLoading) {
+      return const Scaffold(
+        body: Center(
+          child: CircularProgressIndicator(),
+        ),
       );
     }
 
+    if (!_isLoggedIn) {
+      return _showLogin
+          ? LoginScreen(
+              onLoginSuccess: _handleLoginSuccess,
+              onNavigateToSignup: _toggleAuthScreen,
+            )
+          : SignupScreen(
+              onSignupSuccess: _handleSignupSuccess,
+              onNavigateToLogin: _toggleAuthScreen,
+            );
+    }
+
     final screens = [
-      const DashboardScreen(),
+      DashboardScreen(onLogout: _handleLogout),
       const AssignmentsScreen(),
       const ScheduleScreen(),
       const AnnouncementsScreen(),
