@@ -54,23 +54,21 @@ class AnnouncementsScreen extends StatelessWidget {
             );
           }
 
-          return SingleChildScrollView(
+          return ListView.builder(
             padding: const EdgeInsets.all(16),
-            child: Column(
-              children: announcements
-                  .map(
-                    (announcement) => AnnouncementCard(
-                      announcement: announcement,
-                      onDelete: () {
-                        Provider.of<AppState>(
-                          context,
-                          listen: false,
-                        ).deleteAnnouncement(announcement.id);
-                      },
-                    ),
-                  )
-                  .toList(),
-            ),
+            itemCount: announcements.length,
+            itemBuilder: (context, index) {
+              final announcement = announcements[index];
+              return AnnouncementCard(
+                announcement: announcement,
+                onDelete: () {
+                  Provider.of<AppState>(
+                    context,
+                    listen: false,
+                  ).deleteAnnouncement(announcement.id);
+                },
+              );
+            },
           );
         },
       ),

@@ -28,7 +28,7 @@ class RiskStatusScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: ALUTheme.primaryDark,
-      appBar: AppBar(title: Text('Risk Status'), elevation: 0),
+      appBar: AppBar(title: const Text('Risk Status'), elevation: 0),
       body: Consumer<AppState>(
         builder: (context, appState, _) {
           final attendance = appState.calculateAttendancePercentage();
@@ -37,13 +37,13 @@ class RiskStatusScreen extends StatelessWidget {
           final riskStatus = _getRiskStatus(attendance, assignments);
 
           return SingleChildScrollView(
-            padding: EdgeInsets.all(16),
+            padding: const EdgeInsets.all(16),
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Container(
                   width: double.infinity,
-                  padding: EdgeInsets.all(24),
+                  padding: const EdgeInsets.all(24),
                   decoration: BoxDecoration(
                     color: riskColor,
                     borderRadius: BorderRadius.circular(16),
@@ -58,7 +58,7 @@ class RiskStatusScreen extends StatelessWidget {
                           color: ALUTheme.cardWhite,
                         ),
                       ),
-                      SizedBox(height: 12),
+                      const SizedBox(height: 12),
                       Text(
                         _getStatusMessage(riskStatus),
                         textAlign: TextAlign.center,
@@ -70,7 +70,7 @@ class RiskStatusScreen extends StatelessWidget {
                     ],
                   ),
                 ),
-                SizedBox(height: 24),
+                const SizedBox(height: 24),
                 Text(
                   'Performance Metrics',
                   style: TextStyle(
@@ -79,7 +79,7 @@ class RiskStatusScreen extends StatelessWidget {
                     color: ALUTheme.textWhite,
                   ),
                 ),
-                SizedBox(height: 16),
+                const SizedBox(height: 16),
                 _buildMetricCard(
                   'Attendance',
                   attendance,
@@ -87,7 +87,7 @@ class RiskStatusScreen extends StatelessWidget {
                       ? ALUTheme.successGreen
                       : ALUTheme.warningRed,
                 ),
-                SizedBox(height: 12),
+                const SizedBox(height: 12),
                 _buildMetricCard(
                   'Assignment Completion',
                   assignments,
@@ -95,7 +95,7 @@ class RiskStatusScreen extends StatelessWidget {
                       ? ALUTheme.successGreen
                       : ALUTheme.warningRed,
                 ),
-                SizedBox(height: 24),
+                const SizedBox(height: 24),
                 if (attendance < 75 || assignments < 50)
                   Column(
                     children: [
@@ -109,18 +109,18 @@ class RiskStatusScreen extends StatelessWidget {
                             ),
                           );
                         },
-                        icon: Icon(Icons.support_agent),
-                        label: Text('Get Help'),
+                        icon: const Icon(Icons.support_agent),
+                        label: const Text('Get Help'),
                         style: ElevatedButton.styleFrom(
                           backgroundColor: ALUTheme.accentYellow,
-                          minimumSize: Size(double.infinity, 48),
+                          minimumSize: const Size(double.infinity, 48),
                         ),
                       ),
-                      SizedBox(height: 16),
+                      const SizedBox(height: 16),
                     ],
                   ),
                 Container(
-                  padding: EdgeInsets.all(16),
+                  padding: const EdgeInsets.all(16),
                   decoration: BoxDecoration(
                     color: ALUTheme.cardWhite,
                     borderRadius: BorderRadius.circular(12),
@@ -136,19 +136,19 @@ class RiskStatusScreen extends StatelessWidget {
                           color: ALUTheme.textDark,
                         ),
                       ),
-                      SizedBox(height: 12),
+                      const SizedBox(height: 12),
                       _buildRiskItem(
                         'Attendance < 75%',
                         attendance < 75,
                         'You need to attend more sessions to meet requirements',
                       ),
-                      SizedBox(height: 12),
+                      const SizedBox(height: 12),
                       _buildRiskItem(
                         'Low Assignment Completion',
                         assignments < 75,
                         'Complete more assignments to improve your standing',
                       ),
-                      SizedBox(height: 12),
+                      const SizedBox(height: 12),
                       _buildRiskItem(
                         'Combined Risk',
                         attendance < 75 || assignments < 50,
@@ -166,8 +166,9 @@ class RiskStatusScreen extends StatelessWidget {
   }
 
   Widget _buildMetricCard(String label, double value, Color color) {
+    final normalized = (value / 100).clamp(0.0, 1.0);
     return Container(
-      padding: EdgeInsets.all(16),
+      padding: const EdgeInsets.all(16),
       decoration: BoxDecoration(
         color: ALUTheme.cardWhite,
         borderRadius: BorderRadius.circular(12),
@@ -185,7 +186,7 @@ class RiskStatusScreen extends StatelessWidget {
                   color: ALUTheme.textDark.withValues(alpha: 0.7),
                 ),
               ),
-              SizedBox(height: 8),
+              const SizedBox(height: 8),
               Text(
                 '${value.toStringAsFixed(1)}%',
                 style: TextStyle(
@@ -203,7 +204,7 @@ class RiskStatusScreen extends StatelessWidget {
                 width: 60,
                 height: 60,
                 child: CircularProgressIndicator(
-                  value: value / 100,
+                  value: normalized,
                   strokeWidth: 4,
                   backgroundColor: ALUTheme.dividerGray.withValues(alpha: 0.3),
                   valueColor: AlwaysStoppedAnimation<Color>(color),
@@ -235,7 +236,7 @@ class RiskStatusScreen extends StatelessWidget {
               color: isAtRisk ? ALUTheme.warningRed : ALUTheme.successGreen,
               size: 20,
             ),
-            SizedBox(width: 12),
+            const SizedBox(width: 12),
             Expanded(
               child: Text(
                 label,
@@ -248,9 +249,9 @@ class RiskStatusScreen extends StatelessWidget {
             ),
           ],
         ),
-        SizedBox(height: 4),
+        const SizedBox(height: 4),
         Padding(
-          padding: EdgeInsets.only(left: 32),
+          padding: const EdgeInsets.only(left: 32),
           child: Text(
             description,
             style: TextStyle(
