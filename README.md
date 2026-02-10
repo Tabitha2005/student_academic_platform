@@ -157,7 +157,6 @@ Consumer<AppState> widgets rebuild
 Dashboard shows new assignment immediately ✓
 ```
 
-See [ARCHITECTURE.md](ARCHITECTURE.md) for detailed architecture documentation.
 
 ## Quick Start
 
@@ -187,16 +186,10 @@ See [ARCHITECTURE.md](ARCHITECTURE.md) for detailed architecture documentation.
    - Check Risk Status tab for your metrics
    - See recommendations based on your attendance and workload
 
-## Documentation
 
-- **[IMPROVEMENTS.md](IMPROVEMENTS.md)** - Detailed UI improvements & fixes made
-- **[TESTING.md](TESTING.md)** - Complete testing guide with step-by-step verification
-- **[ARCHITECTURE.md](ARCHITECTURE.md)** - Technical architecture overview
-- **[FEATURE_CHECKLIST.md](FEATURE_CHECKLIST.md)** - Feature verification checklist
 
 ## Testing the App
 
-Follow the step-by-step guide in [TESTING.md](TESTING.md):
 
 1. ✓ Sign up with course selection
 2. ✓ Add an assignment
@@ -398,12 +391,6 @@ All changes will automatically sync across screens via Provider.
 
 Created for African Leadership University students.
 
-## Support
-
-For detailed information, refer to:
-- [IMPROVEMENTS.md](IMPROVEMENTS.md) - What was fixed
-- [TESTING.md](TESTING.md) - How to test everything
-- [ARCHITECTURE.md](ARCHITECTURE.md) - Technical deep dive
 
 ---
 
